@@ -5,8 +5,6 @@ category: Jekyll
 layout: post
 ---
 
-# Protocols :
-
 ### Telnet protocol :
 
 ```shell

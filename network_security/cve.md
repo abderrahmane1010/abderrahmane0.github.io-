@@ -1,4 +1,10 @@
-# CVE : Common Vulnerabilities and Exposures
+---
+title: CVE : Common Vulnerabilities and Exposures
+author: Abderrahmane
+category: Jekyll
+layout: post
+---
+
 
 - **Definition** :CVE is a list of publicly disclosed computer security flaws. (list of vulns publicly exposed).
 
