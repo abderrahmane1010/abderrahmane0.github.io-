@@ -1,9 +1,11 @@
 # MY WIKI
 
-# Network security :
+# Cybersecurity :
 
-* [Protocols](network_security/protocols.md)
+* Cybersecurity fundamentals :
+    * [Blue team](fundamentals/blue_team.md)
+    * [CVE](network_security/cve.md)
 
-* [CVE](network_security/cve.md)
+* Network security :
+    * [Protocols](network_security/protocols.md)
 
-  
