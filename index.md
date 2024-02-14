@@ -9,5 +9,10 @@
 * Network security :
     * [Protocols](network_security/protocols.md)
 
+* Web security
+    * [Cookies](web/cookie.md)
+
+    * [HTTP principals](web/http_principals.md)
+    
 * Tools :
     * [CSP Evaluator](tools/csp_evaluator.md)
