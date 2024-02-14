@@ -14,5 +14,7 @@
 
     * [HTTP principals](web/http_principals.md)
     
+    * [XSS](web/xss_attacks.md)
+    
 * Tools :
     * [CSP Evaluator](tools/csp_evaluator.md)
