@@ -12,6 +12,10 @@
     * [Cookies](web/cookie.md)
     * [HTTP principals](web/http_principals.md)
     * [XSS](web/xss_attacks.md)
-    
+
+* Pentesting :
+    * [Checklist](pentesting/checklist.md)
+
 * Tools :
     * [CSP Evaluator](tools/csp_evaluator.md)
+
