@@ -19,3 +19,5 @@
 * Tools :
     * [CSP Evaluator](tools/csp_evaluator.md)
 
+- Programming :
+  * [Design patterns](programming/design_patterns.md)
