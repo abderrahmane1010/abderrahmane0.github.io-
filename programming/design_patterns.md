@@ -496,3 +496,228 @@ public class Main {
 }
 ```
 
+## Patrons structurels
+
+Le **Pattern Adapter** est utilisé pour permettre à deux classes incompatibles de travailler ensemble en fournissant une interface intermédiaire (l'adaptateur). Ce design pattern agit comme un pont entre deux interfaces qui ne seraient normalement pas compatibles.
+
+### **Structure de l'Adapter**
+
+1. **Client** : Utilise une interface cible spécifique.
+2. **Target** : L'interface que le client attend.
+3. **Adaptee** : Une classe existante que vous souhaitez adapter.
+4. **Adapter** : Une classe qui implémente l'interface cible et traduit les appels du client vers l'Adaptee.
+
+### Exemple :
+
+```java
+// Target : Interface attendue par les clients modernes
+interface BluetoothSpeaker {
+    void playAudioViaBluetooth(String audio);
+}
+
+// Adaptee : Ancien système audio utilisant une prise jack
+class OldAudioSystem {
+    public void playAudio(String audio) {
+        System.out.println("Playing audio through 3.5mm jack: " + audio);
+    }
+}
+
+// Adapter : Rend l'ancien système compatible avec Bluetooth
+class BluetoothAdapter implements BluetoothSpeaker {
+    private OldAudioSystem oldSystem;
+
+    public BluetoothAdapter(OldAudioSystem oldSystem) {
+        this.oldSystem = oldSystem;
+    }
+
+    @Override
+    public void playAudioViaBluetooth(String audio) {
+        System.out.println("Converting Bluetooth signal to analog...");
+        oldSystem.playAudio(audio); // Traduction de l'appel pour l'ancien système
+    }
+}
+
+// Client : Utilise un système Bluetooth moderne
+public class Main {
+    public static void main(String[] args) {
+        // Ancien système audio
+        OldAudioSystem oldAudioSystem = new OldAudioSystem();
+
+        // Adaptateur pour rendre le système Bluetooth-compatible
+        BluetoothSpeaker adapter = new BluetoothAdapter(oldAudioSystem);
+
+        // Jouer de la musique via Bluetooth
+        adapter.playAudioViaBluetooth("Imagine Dragons - Believer");
+    }
+}
+```
+
+## Bridge
+
+Le **Pattern Bridge** est utilisé pour séparer une abstraction d'une implémentation, permettant ainsi de les développer de manière indépendante. Il est particulièrement utile pour éviter une explosion de sous-classes lorsque plusieurs dimensions de variation doivent être gérées.
+
+### **Structure de Bridge**
+
+1. **Abstraction** : Définit une interface de haut niveau que le client utilise.
+2. **Implementor** : Interface pour l'implémentation concrète.
+3. **ConcreteImplementor** : Une implémentation spécifique de l'interface `Implementor`.
+4. **RefinedAbstraction** : Une version spécifique de l'abstraction qui utilise un `Implementor`.
+
+### Exemple
+
+```java
+// Implementor : Interface pour les couleurs
+interface Color {
+    void applyColor();
+}
+
+// ConcreteImplementor : Rouge
+class Red implements Color {
+    @Override
+    public void applyColor() {
+        System.out.println("Applying Red color.");
+    }
+}
+
+// ConcreteImplementor : Bleu
+class Blue implements Color {
+    @Override
+    public void applyColor() {
+        System.out.println("Applying Blue color.");
+    }
+}
+
+// Abstraction : Forme
+abstract class Shape {
+    protected Color color; // Bridge vers l'implémentation
+
+    public Shape(Color color) {
+        this.color = color;
+    }
+
+    public abstract void draw();
+}
+
+// RefinedAbstraction : Cercle
+class Circle extends Shape {
+    public Circle(Color color) {
+        super(color);
+    }
+
+    @Override
+    public void draw() {
+        System.out.print("Drawing Circle with ");
+        color.applyColor(); // Appelle l'implémentation
+    }
+}
+
+// RefinedAbstraction : Rectangle
+class Rectangle extends Shape {
+    public Rectangle(Color color) {
+        super(color);
+    }
+
+    @Override
+    public void draw() {
+        System.out.print("Drawing Rectangle with ");
+        color.applyColor(); // Appelle l'implémentation
+    }
+}
+
+// Client
+public class Main {
+    public static void main(String[] args) {
+        // Dessiner un cercle rouge
+        Shape redCircle = new Circle(new Red());
+        redCircle.draw();
+
+        // Dessiner un rectangle bleu
+        Shape blueRectangle = new Rectangle(new Blue());
+        blueRectangle.draw();
+    }
+}
+```
+
+### Composite
+
+Le **Pattern Composite** est utilisé pour composer des objets en structures arborescentes afin de représenter des hiérarchies **partie-tout**. Il permet aux clients de manipuler de manière uniforme des objets individuels et des compositions d'objets.
+
+### **Structure du Composite**
+
+1. **Component** : Une interface ou une classe abstraite définissant les opérations communes pour les objets et les groupes.
+2. **Leaf** : Une classe représentant des objets individuels (feuilles de l’arbre).
+3. **Composite** : Une classe qui contient un groupe d'objets `Component`, et qui implémente les mêmes opérations que les feuilles.
+4. **Client** : Interagit avec les objets via l'interface `Component`.
+
+### Exemple :
+
+```java
+// Component : Interface commune pour fichiers et dossiers
+interface FileSystemComponent {
+    void showDetails();
+}
+
+// Leaf : Représente un fichier
+class File implements FileSystemComponent {
+    private String name;
+
+    public File(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println("File: " + name);
+    }
+}
+
+// Composite : Représente un dossier
+class Folder implements FileSystemComponent {
+    private String name;
+    private List<FileSystemComponent> components = new ArrayList<>();
+
+    public Folder(String name) {
+        this.name = name;
+    }
+
+    public void addComponent(FileSystemComponent component) {
+        components.add(component);
+    }
+
+    public void removeComponent(FileSystemComponent component) {
+        components.remove(component);
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println("Folder: " + name);
+        for (FileSystemComponent component : components) {
+            component.showDetails(); // Appelle showDetails sur chaque composant
+        }
+    }
+}
+
+// Client
+public class Main {
+    public static void main(String[] args) {
+        // Fichiers
+        File file1 = new File("File1.txt");
+        File file2 = new File("File2.txt");
+
+        // Dossier racine
+        Folder rootFolder = new Folder("Root");
+
+        // Sous-dossier
+        Folder subFolder = new Folder("SubFolder");
+        subFolder.addComponent(file1); // Ajoute un fichier au sous-dossier
+
+        // Ajoute tout au dossier racine
+        rootFolder.addComponent(subFolder);
+        rootFolder.addComponent(file2);
+
+        // Affiche la hiérarchie des fichiers/dossiers
+        rootFolder.showDetails();
+    }
+}
+```
+
